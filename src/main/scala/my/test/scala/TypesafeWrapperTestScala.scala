@@ -6,27 +6,27 @@ package my.test.scala
  * Mail:    igor.levoniuk@gmail.com
  * Date:    8/12/13
  */
-object TestScala extends App {
+object TypesafeWrapperTestScala extends App {
 
-  trait BaseTransferedType
+  trait BaseTransferredType
 
-  case class TransferedString(val s: String) extends BaseTransferedType
+  case class TransferredString(val s: String) extends BaseTransferredType
 
-  case class TransferedInt(val n: Int) extends BaseTransferedType
+  case class TransferredInt(val n: Int) extends BaseTransferredType
 
   trait Handler {
-    type TypeToHandle <: BaseTransferedType
+    type TypeToHandle <: BaseTransferredType
     def handle(p: TypeToHandle): TypeToHandle
   }
 
   class StringHandler extends Handler {
-    type TypeToHandle = TransferedString
-    def handle(p: TransferedString): TransferedString = TransferedString(p.s + "1")
+    type TypeToHandle = TransferredString
+    def handle(p: TransferredString): TransferredString = TransferredString(p.s + "1")
   }
 
   class IntHandler extends Handler {
-    type TypeToHandle = TransferedInt
-    def handle(p: TransferedInt): TransferedInt = TransferedInt(p.n + 1)
+    type TypeToHandle = TransferredInt
+    def handle(p: TransferredInt): TransferredInt = TransferredInt(p.n + 1)
   }
 
   class HandlerFactory {
