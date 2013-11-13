@@ -23,7 +23,7 @@ object TraitsTest extends App {
     def put(v: Int): Unit = elems += v
     def get(): Int = elems.remove(0)
 
-    override def toString = elems.toString
+    override def toString = elems.toString()
   }
 
   trait Filtering extends IntQueue {
@@ -41,16 +41,35 @@ object TraitsTest extends App {
     abstract override def put(v: Int): Unit = super.put(v + 1)
   }
 
+  println("MyQueue with Incrementing with Filtering{override val predicate = (x: Int) => x < 0}:")
+  println()
   val q1 = new MyQueue with Incrementing with Filtering{override val predicate = (x: Int) => x < 0}
   q1.put(-1)
   q1.put(0)
   q1.put(1)
   println(q1)
 
+  println("MyQueue with Filtering with Incrementing:")
+  println()
   val q2 = new MyQueue with Filtering with Incrementing
   q2.put(-1)
   q2.put(0)
   q2.put(1)
   println(q2)
+
+  println("class MyOwnIntQueue extends MyQueue with Incrementing (should be no inc):")
+  println()
+  /**
+   * Following statement better consider distributed as follows: (class MyOwnIntQueue) extends (MyQueue with Incrementing)
+   */
+  class MyOwnIntQueue extends MyQueue with Incrementing {
+    override def put(v: Int): Unit = super.put(v - 1) //decrement should eliminate increment
+  }
+  val regularQueue = new MyOwnIntQueue
+  regularQueue.put(-1)
+  regularQueue.put(0)
+  regularQueue.put(1)
+  println(regularQueue)
+
 
 }
